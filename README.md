@@ -1,3 +1,1 @@
 # schain-sdk
-
-test

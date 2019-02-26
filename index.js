@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const fsPath = require('fs-path');
 
-const config = require('./config');
+const FW_URL = "http://ec2-13-231-26-144.ap-northeast-1.compute.amazonaws.com:9000/v1";
 
 const tag = '[scass_sdk.js]';
 
@@ -20,11 +20,11 @@ var CHAIN_CODE_EXEC = {
 }
 
 sdk.register = async (name) => {
-  console.debug(tag, 'register_url:', config.fw_url + "/user");
+  console.debug(tag, 'register_url:', FW_URL + "/user");
   console.debug(tag, 'register_name:', name);
 
   var options = {
-    url: config.fw_url + "/user",
+    url: FW_URL + "/user",
     headers: {
       'Authorization': 'Basic ' + new Buffer(ACCESS_USER + ":" + ACCESS_PW).toString("base64")
     },
@@ -81,9 +81,9 @@ execChainCode = async (exec, chain_code_id, user_name, fcn, args, apikey) => {
 
   var query_url = "";
   if (exec == CHAIN_CODE_EXEC.QUERY) {
-    query_url = config.fw_url + "/chaincode/" + chain_code_id + "/query"
+    query_url = FW_URL + "/chaincode/" + chain_code_id + "/query"
   } else if (exec == CHAIN_CODE_EXEC.INVOKE) {
-    query_url = config.fw_url + "/chaincode/" + chain_code_id + "/invoke"
+    query_url = FW_URL + "/chaincode/" + chain_code_id + "/invoke"
   }
 
   console.debug(tag, "apikey:", apikey);
