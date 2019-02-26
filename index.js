@@ -19,14 +19,14 @@ var CHAIN_CODE_EXEC = {
   "INVOKE": 2
 }
 
-sdk.register = async (name) => {
+sdk.register = async (name, apikey) => {
   console.debug(tag, 'register_url:', FW_URL + "/user");
   console.debug(tag, 'register_name:', name);
 
   var options = {
     url: FW_URL + "/user",
     headers: {
-      'Authorization': 'Basic ' + new Buffer(ACCESS_USER + ":" + ACCESS_PW).toString("base64")
+      'x-api-key': apikey
     },
     formData: {
       name: name
@@ -118,7 +118,6 @@ execChainCode = async (exec, chain_code_id, user_name, fcn, args, apikey) => {
   var options = {
     url: query_url,
     headers: {
-      'Authorization': 'Basic ' + new Buffer(ACCESS_USER + ":" + ACCESS_PW).toString("base64"),
       'x-api-key': apikey
     },
     formData: {
