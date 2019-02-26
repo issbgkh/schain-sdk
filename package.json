@@ -1,0 +1,27 @@
+{
+  "name": "schain_sdk",
+  "version": "1.0.0",
+  "description": "sdk for schain",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/issbgkh/schain-sdk.git"
+  },
+  "keywords": [
+    "schain",
+    "scaas"
+  ],
+  "author": "Jasper",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/issbgkh/schain-sdk/issues"
+  },
+  "homepage": "https://github.com/issbgkh/schain-sdk#readme",
+  "dependencies": {
+    "fs-path": "0.0.24",
+    "request": "^2.88.0"
+  }
+}
