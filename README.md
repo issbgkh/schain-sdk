@@ -18,14 +18,17 @@ Browse [developer console](http://ec2-13-231-26-144.ap-northeast-1.compute.amazo
 const schain = require('schain_sdk');
 
 #### Register user
+```javascript
 let result = await schain.register(USER_NAME, APIKEY);
-
+```
 #### Invoke chain code
+```javascript
 let result = await schain.invokeChainCode(APIKEY, CHAINCODE_ID, USER_NAME, FUNCTION, ARGS);
-
+```
 #### Query chain code
+```javascript
 let result = await schain.queryChainCode(APIKEY, CHAINCODE_ID, USER_NAME, 'FUNCTION', ARGS);
-
+```
 ## License
 Copyright 2019 S-Chain Technologies Limited
 
