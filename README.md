@@ -30,6 +30,22 @@ let result = await schain.invokeChainCode(APIKEY, CHAINCODE_ID, USER_NAME, FUNCT
 ```javascript
 let result = await schain.queryChainCode(APIKEY, CHAINCODE_ID, USER_NAME, FUNCTION, ARGS);
 ```
+
+### Use the SDK for CRUD Template
+
+#### get value in CRUD
+```javascript
+let result = await schain.get(APIKEY, CHAINCODE_ID, ARGS);
+```
+#### set value in CRUD
+```javascript
+let result = await schain.set(APIKEY, CHAINCODE_ID, ARGS);
+```
+#### delete value in CRUD
+```javascript
+let result = await schain.delete(APIKEY, CHAINCODE_ID, ARGS);
+```
+
 ## License
 Copyright 2019 S-Chain Technologies Limited
 
