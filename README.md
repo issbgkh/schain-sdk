@@ -9,21 +9,21 @@ The SDK itself is implemented in Javscript
 ### Install
 1) npm i schain_sdk
 
-###Prepare chaincode id & apikey
+### Prepare chaincode id & apikey
 Browse [developer console](http://ec2-13-231-26-144.ap-northeast-1.compute.amazonaws.com/). and create an app in My app then get chaincode id and get api key in profile.
 
 ### Use the SDK
 
-####Import schain_sdk in js
+#### Import schain_sdk in js
 const schain = require('schain_sdk');
 
-####Register user
+#### Register user
 let result = await schain.register(USER_NAME, APIKEY);
 
-####Invoke chain code
+#### Invoke chain code
 let result = await schain.invokeChainCode(APIKEY, CHAINCODE_ID, USER_NAME, FUNCTION, ARGS);
 
-####Query chain code
+#### Query chain code
 let result = await schain.queryChainCode(APIKEY, CHAINCODE_ID, USER_NAME, 'FUNCTION', ARGS);
 
 ## License
