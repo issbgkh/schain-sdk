@@ -33,15 +33,15 @@ let result = await schain.queryChainCode(APIKEY, CHAINCODE_ID, USER_NAME, FUNCTI
 
 ### Use the SDK for CRUD Template
 
-#### get value in CRUD
+#### get value
 ```javascript
 let result = await schain.get(APIKEY, CHAINCODE_ID, ARGS);
 ```
-#### set value in CRUD
+#### set value
 ```javascript
 let result = await schain.set(APIKEY, CHAINCODE_ID, ARGS);
 ```
-#### delete value in CRUD
+#### delete value
 ```javascript
 let result = await schain.delete(APIKEY, CHAINCODE_ID, ARGS);
 ```
