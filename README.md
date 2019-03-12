@@ -7,7 +7,7 @@ A Javascript sdk for schain
 The SDK itself is implemented in Javscript
 
 ### Install
-1) npm i schain_sdk
+* npm i schain_sdk
 
 ### Prepare chaincode id & apikey
 Browse [developer console](http://ec2-13-231-26-144.ap-northeast-1.compute.amazonaws.com/). and create an app in My app then get chaincode id and get api key in profile.
