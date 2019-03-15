@@ -37,14 +37,19 @@ let result = await schain.queryChainCode(APIKEY, CHAINCODE_ID, USER_NAME, FUNCTI
 ```javascript
 let result = await schain.get(APIKEY, CHAINCODE_ID, ARGS);
 ```
+eg. let result = await schain.get("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c", ["a"]);
+
 #### set value
 ```javascript
 let result = await schain.set(APIKEY, CHAINCODE_ID, ARGS);
 ```
+eg. let result = await schain.set("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c", ["a","1"]);
+
 #### delete value
 ```javascript
 let result = await schain.delete(APIKEY, CHAINCODE_ID, ARGS);
 ```
+eg. let result = await schain.delete("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c", ["a"]);
 
 ## License
 Copyright 2019 S-Chain Technologies Limited
