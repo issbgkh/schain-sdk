@@ -62,17 +62,17 @@ sdk.register = async (name, apikey) => {
 //==========CURD Template SDK==========
 sdk.get = async (apikey, chain_code_id, args) => {
   console.log("exec get fcn in curd template");
-  return queryChainCode(apikey, chain_code_id, "", "get", args)
+  return sdk.queryChainCode(apikey, chain_code_id, "", "get", args)
 }
 
 sdk.set = async (apikey, chain_code_id, args) => {
   console.log("exec set fcn in curd template");
-  return invokeChainCode(apikey, chain_code_id, "", "set", args)
+  return sdk.invokeChainCode(apikey, chain_code_id, "", "set", args)
 }
 
 sdk.delete = async (apikey, chain_code_id, args) => {
   console.log("exec del fcn in curd template");
-  return invokeChainCode(apikey, chain_code_id, "", "delete", args)
+  return sdk.invokeChainCode(apikey, chain_code_id, "", "delete", args)
 }
 
 //====================================
