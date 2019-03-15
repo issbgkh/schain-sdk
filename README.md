@@ -38,7 +38,7 @@ let result = await schain.queryChainCode(APIKEY, CHAINCODE_ID, USER_NAME, FUNCTI
 let result = await schain.get(APIKEY, CHAINCODE_ID, ARGS);
 
 e.g.
-await schain.get("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c",  ["a"]).then(data => {
+await schain.get("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c",  '["a"]').then(data => {
   res.send(data);
 }).catch(error => {
   res.send(error);
@@ -49,7 +49,7 @@ await schain.get("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9
 let result = await schain.set(APIKEY, CHAINCODE_ID, ARGS);
 
 e.g.
-await schain.set("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c",  ["a","1"]).then(data => {
+await schain.set("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c",  '["a","1"]').then(data => {
   res.send(data);
 }).catch(error => {
   res.send(error);
@@ -60,7 +60,7 @@ await schain.set("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9
 let result = await schain.delete(APIKEY, CHAINCODE_ID, ARGS);
 
 e.g.
-await schain.delete("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c",  ["a"]).then(data => {
+await schain.delete("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c",  '["a"]').then(data => {
   res.send(data);
 }).catch(error => {
   res.send(error);
