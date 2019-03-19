@@ -1,66 +1,65 @@
 # schain-sdk
 
-A Javascript sdk for schain
+SChain Javascript SDK
 
-## SDK usage
-### Compatibility
-The SDK itself is implemented in Javscript
+## Prerequisite
+An API Key and an App ID are required while using SChain SDK. Read the [Get started](https://github.com/issbgkh/schain-get-started) guide to get them.
 
-### Install
+## Install package
 * npm i schain_sdk
 
-### Prepare chaincode id & apikey
-Browse [developer console](http://ec2-13-231-26-144.ap-northeast-1.compute.amazonaws.com/). and create an app in My app then get chaincode id and get api key in profile.
+## Usage
 
-### Use the SDK
-
-#### Import schain_sdk in js
+### Import package
 ```javascript
 const schain = require('schain_sdk');
 ```
-#### Init apikey and chain code
+### Initialize
 ```javascript
-schain.init(APIKEY, CHAINCODE_ID)
+const API_Key = '5d5b9cbd55cc6725f82dabba0632fe6e';
+const App_ID = 'app-38b30623-c207-4025-8c80-69df51f822c2';
 
-e.g.
-schain.init('5d5b9cbd55cc6725f82dabba0632fe6e', 'app-38b30623-c207-4025-8c80-69df51f822c2')
+schain.init(API_Key, App_ID)
 ```
-#### Register user
+### Register an user
 ```javascript
-schain.register(USER_NAME);
+let username = 'user01';
 
-e.g.
-await scass_sdk.register('user01').then(data => {
-  res.send(data);
+await schain.register(username).then(data => {
+    console.log('done');
 }).catch(error => {
-  res.send(error);
+    console.log(error);
 });
 ```
-#### Invoke chain code
+### Invoke chaincode
 ```javascript
-schain.invokeChainCode(USER_NAME, FUNCTION, ARGS);
+let username = 'user01';
+let func = 'invoke';
+let args = '["a", "b", "c"]';
 
-e.g.
-await scass_sdk.invokeChainCode('user01', 'invoke', '["a","b","10"]').then(data => {
-  res.send(data);
-})
-.catch(error => {
-  res.send(error);
-})
-```
-#### Query chain code
-```javascript
-schain.queryChainCode(USER_NAME, FUNCTION, ARGS);
-
-e.g.
-await scass_sdk.queryChainCode('user01','query', '["a"]').then(data => {
-  res.send(data);
+await scass_sdk.invokeChainCode(username, func, args).then(data => {
+    console.log('done');
 }).catch(error => {
-  res.send(error);
-})
+    console.log(error);
+});
+```
+### Query chaincode
+```javascript
+let username = 'user01';
+let func = 'query';
+let args = '["a"]';
+
+await schain.queryChainCode(username, func, args).then(data => {
+    console.log('done');
+}).catch(error => {
+    console.log(error);
+});
 ```
 
-### Use the SDK for CRUD Template
+## Simple store template
+The SDK provides a set of convenient functions that support the simple store chaincode template.
+
+
 
 #### Init apikey and chain code
 ```javascript
