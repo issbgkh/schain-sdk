@@ -18,27 +18,35 @@ Browse [developer console](http://ec2-13-231-26-144.ap-northeast-1.compute.amazo
 ```javascript
 const schain = require('schain_sdk');
 ```
+#### Init apikey and chain code
+```javascript
+schain.init(APIKEY, CHAINCODE_ID)
+```
 #### Register user
 ```javascript
-let result = await schain.register(USER_NAME, APIKEY);
+let result = await schain.register(USER_NAME);
 ```
 #### Invoke chain code
 ```javascript
-let result = await schain.invokeChainCode(APIKEY, CHAINCODE_ID, USER_NAME, FUNCTION, ARGS);
+let result = await schain.invokeChainCode(USER_NAME, FUNCTION, ARGS);
 ```
 #### Query chain code
 ```javascript
-let result = await schain.queryChainCode(APIKEY, CHAINCODE_ID, USER_NAME, FUNCTION, ARGS);
+let result = await schain.queryChainCode(USER_NAME, FUNCTION, ARGS);
 ```
 
 ### Use the SDK for CRUD Template
 
+#### Init apikey and chain code
+```javascript
+schain.init(APIKEY, CHAINCODE_ID)
+```
 #### get value
 ```javascript
-let result = await schain.get(APIKEY, CHAINCODE_ID, ARGS);
+let result = await schain.get(KEY);
 
 e.g.
-await schain.get("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c",  '["a"]').then(data => {
+await schain.get("a").then(data => {
   res.send(data);
 }).catch(error => {
   res.send(error);
@@ -46,10 +54,10 @@ await schain.get("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9
 ```
 #### set value
 ```javascript
-let result = await schain.set(APIKEY, CHAINCODE_ID, ARGS);
+let result = await schain.set(KEY, VALUE);
 
 e.g.
-await schain.set("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c",  '["a","1"]').then(data => {
+await schain.set("a", "10").then(data => {
   res.send(data);
 }).catch(error => {
   res.send(error);
@@ -57,10 +65,10 @@ await schain.set("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9
 ```
 #### delete value
 ```javascript
-let result = await schain.delete(APIKEY, CHAINCODE_ID, ARGS);
+let result = await schain.delete("KEY");
 
 e.g.
-await schain.delete("5d5b9cbd55cc6725f82dabba0632fe6e", "app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c",  '["a"]').then(data => {
+await schain.delete("a").then(data => {
   res.send(data);
 }).catch(error => {
   res.send(error);

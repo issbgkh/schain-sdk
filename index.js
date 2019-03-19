@@ -19,14 +19,35 @@ var CHAIN_CODE_EXEC = {
   "INVOKE": 2
 }
 
-sdk.register = async (name, apikey) => {
+var API_KEY = "";
+var CHAIN_CODE_ID = "";
+
+sdk.init = function(apikey, chain_code_id) {
+  if (!apikey) {
+    return {
+      error: "Api key is not defined"
+    };
+  }
+
+  if (!chain_code_id) {
+    return {
+      error: "Chain code id is not defined"
+    };
+  }
+
+  console.log("init API_KEY:" + apikey + " CHAIN_CODE_ID:" + chain_code_id);
+  API_KEY = apikey;
+  CHAIN_CODE_ID = chain_code_id;
+}
+
+sdk.register = async (name) => {
   console.debug(tag, 'register_url:', FW_URL + "/user");
   console.debug(tag, 'register_name:', name);
 
   var options = {
     url: FW_URL + "/user",
     headers: {
-      'x-api-key': apikey
+      'x-api-key': API_KEY
     },
     formData: {
       name: name
@@ -60,45 +81,61 @@ sdk.register = async (name, apikey) => {
 };
 
 //==========CURD Template SDK==========
-sdk.get = async (apikey, chain_code_id, args) => {
+sdk.get = async (key) => {
   console.log("exec get fcn in curd template");
-  return sdk.queryChainCode(apikey, chain_code_id, "", "get", args)
+  var args = "[\"" + key + "\"]";
+  return sdk.queryChainCode("", "get", args)
 }
 
-sdk.set = async (apikey, chain_code_id, args) => {
+sdk.set = async (key, value) => {
   console.log("exec set fcn in curd template");
-  return sdk.invokeChainCode(apikey, chain_code_id, "", "set", args)
+  var args = "[\"" + key + "\",\"" + value + "\"]";
+  return sdk.invokeChainCode("", "set", args)
 }
 
-sdk.delete = async (apikey, chain_code_id, args) => {
+sdk.delete = async (key) => {
   console.log("exec del fcn in curd template");
-  return sdk.invokeChainCode(apikey, chain_code_id, "", "delete", args)
+  var args = "[\"" + key + "\"]";
+  return sdk.invokeChainCode("", "delete", args)
 }
 
 //====================================
-sdk.invokeChainCode = async (apikey, chain_code_id, user_name, fcn, args) => {
+sdk.invokeChainCode = async (user_name, fcn, args) => {
   console.log("exec invoke chain code");
-  return execChainCode(CHAIN_CODE_EXEC.INVOKE, chain_code_id, user_name, fcn, args, apikey);
+  return execChainCode(CHAIN_CODE_EXEC.INVOKE, user_name, fcn, args);
 }
 
-sdk.queryChainCode = async (apikey, chain_code_id, user_name, fcn, args) => {
+sdk.queryChainCode = async (user_name, fcn, args) => {
   console.log("exec query chain code");
-  return execChainCode(CHAIN_CODE_EXEC.QUERY, chain_code_id, user_name, fcn, args, apikey);
+  return execChainCode(CHAIN_CODE_EXEC.QUERY, user_name, fcn, args);
 };
 
-execChainCode = async (exec, chain_code_id, user_name, fcn, args, apikey) => {
+execChainCode = async (exec, user_name, fcn, args) => {
+
+  if (!API_KEY) {
+    return {
+      error: "Api key is not defined"
+    };
+  }
+
+  if (!CHAIN_CODE_ID) {
+    return {
+      error: "Chain code id is not defined"
+    };
+  }
 
   var query_url = "";
   if (exec == CHAIN_CODE_EXEC.QUERY) {
-    query_url = FW_URL + "/chaincode/" + chain_code_id + "/query"
+    query_url = FW_URL + "/chaincode/" + CHAIN_CODE_ID + "/query"
   } else if (exec == CHAIN_CODE_EXEC.INVOKE) {
-    query_url = FW_URL + "/chaincode/" + chain_code_id + "/invoke"
+    query_url = FW_URL + "/chaincode/" + CHAIN_CODE_ID + "/invoke"
   }
 
   var user_private_key = "";
   var signature = "";
   if (user_name) {
     if (!fs.existsSync(KEYSTORE + "/" + user_name)) {
+      console.log(user_name)
       return {
         error: "User is not existed"
       };
@@ -127,9 +164,9 @@ execChainCode = async (exec, chain_code_id, user_name, fcn, args, apikey) => {
     }
   }
 
-  console.debug(tag, "apikey:", apikey);
+  console.debug(tag, "apikey:", API_KEY);
   console.debug(tag, 'chain_code_url:', query_url);
-  console.debug(tag, 'chain_code_id:', chain_code_id);
+  console.debug(tag, 'chain_code_id:', CHAIN_CODE_ID);
   console.debug(tag, 'user_name:', user_name);
   console.debug(tag, 'user_private_key:', user_private_key);
   console.debug(tag, 'signature:', signature);
@@ -139,7 +176,7 @@ execChainCode = async (exec, chain_code_id, user_name, fcn, args, apikey) => {
   var options = {
     url: query_url,
     headers: {
-      'x-api-key': apikey
+      'x-api-key': API_KEY
     },
     formData: {
       fcn: fcn,
