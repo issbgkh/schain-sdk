@@ -71,7 +71,7 @@ schain.init('5d5b9cbd55cc6725f82dabba0632fe6e', 'app-a017cda3-c1fc-4d47-9b9b-bbe
 ```
 #### get value
 ```javascript
-await schain.get(KEY);
+schain.get(KEY);
 
 e.g.
 await schain.get('a').then(data => {
@@ -82,7 +82,7 @@ await schain.get('a').then(data => {
 ```
 #### set value
 ```javascript
-await schain.set(KEY, VALUE);
+schain.set(KEY, VALUE);
 
 e.g.
 await schain.set('a', '10').then(data => {
@@ -93,7 +93,7 @@ await schain.set('a', '10').then(data => {
 ```
 #### delete value
 ```javascript
-await schain.delete(KEY);
+schain.delete(KEY);
 
 e.g.
 await schain.delete('a').then(data => {
