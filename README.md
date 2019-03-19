@@ -27,24 +27,37 @@ schain.init('5d5b9cbd55cc6725f82dabba0632fe6e', 'app-38b30623-c207-4025-8c80-69d
 ```
 #### Register user
 ```javascript
-let result = await schain.register(USER_NAME);
+schain.register(USER_NAME);
 
 e.g.
-let result = await schain.register('user01');
+await scass_sdk.register('user01').then(data => {
+  res.send(data);
+}).catch(error => {
+  res.send(error);
+});
 ```
 #### Invoke chain code
 ```javascript
-let result = await schain.invokeChainCode(USER_NAME, FUNCTION, ARGS);
+schain.invokeChainCode(USER_NAME, FUNCTION, ARGS);
 
 e.g.
-let result = await schain.invokeChainCode('user01', 'invoke', '["a","b","10"]');
+await scass_sdk.invokeChainCode('user01', 'invoke', '["a","b","10"]').then(data => {
+  res.send(data);
+})
+.catch(error => {
+  res.send(error);
+})
 ```
 #### Query chain code
 ```javascript
-let result = await schain.queryChainCode(USER_NAME, FUNCTION, ARGS);
+schain.queryChainCode(USER_NAME, FUNCTION, ARGS);
 
 e.g.
-let result = await schain.queryChainCode('user01','query', '["a"]');
+await scass_sdk.queryChainCode('user01','query', '["a"]').then(data => {
+  res.send(data);
+}).catch(error => {
+  res.send(error);
+})
 ```
 
 ### Use the SDK for CRUD Template
@@ -58,7 +71,7 @@ schain.init('5d5b9cbd55cc6725f82dabba0632fe6e', 'app-a017cda3-c1fc-4d47-9b9b-bbe
 ```
 #### get value
 ```javascript
-let result = await schain.get(KEY);
+await schain.get(KEY);
 
 e.g.
 await schain.get('a').then(data => {
@@ -69,7 +82,7 @@ await schain.get('a').then(data => {
 ```
 #### set value
 ```javascript
-let result = await schain.set(KEY, VALUE);
+await schain.set(KEY, VALUE);
 
 e.g.
 await schain.set('a', '10').then(data => {
@@ -80,7 +93,7 @@ await schain.set('a', '10').then(data => {
 ```
 #### delete value
 ```javascript
-let result = await schain.delete(KEY);
+await schain.delete(KEY);
 
 e.g.
 await schain.delete('a').then(data => {
