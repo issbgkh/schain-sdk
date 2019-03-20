@@ -3,7 +3,7 @@
 SChain Javascript SDK, provides a set of wrapper functions that help you accessing your chaincode.
 
 ## Prerequisite
-An API Key and an App ID are required while using the SDK. Read the [Get started](https://github.com/issbgkh/schain-get-started) guide to get them.
+An API KEY and an APP ID are required while using the SDK. Read the [Get started](https://github.com/issbgkh/schain-get-started) guide to get them.
 
 ## Install package
 npm i schain_sdk
@@ -16,10 +16,10 @@ const schain = require('schain_sdk');
 ```
 ### Initialize
 ```javascript
-const API_Key = '5d5b9cbd55cc6725f82dabba0632fe6e';
-const App_ID = 'app-38b30623-c207-4025-8c80-69df51f822c2';
+const API_KEY = '5d5b9cbd55cc6725f82dabba0632fe6e';
+const APP_ID = 'app-38b30623-c207-4025-8c80-69df51f822c2';
 
-schain.init(API_Key, App_ID)
+schain.init(API_KEY, APP_ID)
 ```
 ### Register an user
 If your apps need to distinguish user identities, you can register an user by calling **register**.
