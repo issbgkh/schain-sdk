@@ -27,7 +27,7 @@ If your apps need to distinguish user identities, you can register an user by ca
 ```javascript
 let username = 'user01';
 
-await schain.register(username).then(data => {
+await schain.register(username).then(result => {
     console.log('done');
 }).catch(error => {
     console.log(error);
@@ -48,7 +48,7 @@ let func = 'invoke';
 // The arguments to be passed to the function
 let args = '["a", "b", "c"]';
 
-await scass_sdk.invokeChainCode(username, func, args).then(data => {
+await scass_sdk.invokeChainCode(username, func, args).then(result => {
     console.log('done');
 }).catch(error => {
     console.log(error);
@@ -69,8 +69,8 @@ let func = 'query';
 // The arguments to be passed to the function
 let args = '["a"]';
 
-await schain.queryChainCode(username, func, args).then(data => {
-    console.log('done');
+await schain.queryChainCode(username, func, args).then(result => {
+    console.log(result);
 }).catch(error => {
     console.log(error);
 });
