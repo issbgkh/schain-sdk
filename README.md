@@ -77,7 +77,7 @@ await schain.queryChainCode(username, func, args).then(data => {
 ```
 
 ## Simple store template
-The SDK provides a set of convenient functions that support the [simple store chaincode template.](https://github.com/issbgkh/simple-store)
+The SDK provides a set of convenient functions that support the [simple store template](https://github.com/issbgkh/simple-store) chaincode.
 
 ### Set a value
 ```javascript
