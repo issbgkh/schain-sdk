@@ -16,6 +16,7 @@ const schain = require('schain_sdk');
 ```
 ### Initialize
 ```javascript
+// Replace API_KEY and APP_ID with yours
 const API_KEY = '5d5b9cbd55cc6725f82dabba0632fe6e';
 const APP_ID = 'app-38b30623-c207-4025-8c80-69df51f822c2';
 
