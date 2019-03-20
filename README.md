@@ -3,7 +3,7 @@
 SChain Javascript SDK
 
 ## Prerequisite
-An API Key and an App ID are required while using SChain SDK. Read the [Get started](https://github.com/issbgkh/schain-get-started) guide to get them.
+An API Key and an App ID are required while using the SDK. Read the [Get started](https://github.com/issbgkh/schain-get-started) guide to get them.
 
 ## Install package
 * npm i schain_sdk
@@ -33,8 +33,13 @@ await schain.register(username).then(data => {
 ```
 ### Invoke chaincode
 ```javascript
+// specify an user identity that is used to invoke the chaincode
 let username = 'user01';
+
+// the function name to be invoked
 let func = 'invoke';
+
+// the arguments to be passed to the function
 let args = '["a", "b", "c"]';
 
 await scass_sdk.invokeChainCode(username, func, args).then(data => {
@@ -45,8 +50,13 @@ await scass_sdk.invokeChainCode(username, func, args).then(data => {
 ```
 ### Query chaincode
 ```javascript
+// specify an user identity that is used to query the chaincode
 let username = 'user01';
+
+// the function name to be invoked for querying
 let func = 'query';
+
+// the arguments to be passed to the function
 let args = '["a"]';
 
 await schain.queryChainCode(username, func, args).then(data => {
@@ -57,48 +67,40 @@ await schain.queryChainCode(username, func, args).then(data => {
 ```
 
 ## Simple store template
-The SDK provides a set of convenient functions that support the simple store chaincode template.
+The SDK provides a set of convenient functions that support the [simple store chaincode template](https://github.com/issbgkh/simple-store)
 
 
-
-#### Init apikey and chain code
+### Set a value
 ```javascript
-schain.init(APIKEY, CHAINCODE_ID)
+let key = 'key1';
+let value = '100';
 
-e.g.
-schain.init('5d5b9cbd55cc6725f82dabba0632fe6e', 'app-a017cda3-c1fc-4d47-9b9b-bbe3ac32969c')
-```
-#### get value
-```javascript
-schain.get(KEY);
-
-e.g.
-await schain.get('a').then(data => {
-  res.send(data);
+await schain.set(key, value).then(result => {
+    console.log('done');
 }).catch(error => {
   res.send(error);
 })
 ```
-#### set value
-```javascript
-schain.set(KEY, VALUE);
 
-e.g.
-await schain.set('a', '10').then(data => {
-  res.send(data);
+### Get a value by key
+```javascript
+let key = 'key1';
+
+await schain.get(key).then(value => {
+    console.log('a=' + value);
 }).catch(error => {
-  res.send(error);
+    console.log(error);
 })
 ```
-#### delete value
-```javascript
-schain.delete(KEY);
 
-e.g.
-await schain.delete('a').then(data => {
-  res.send(data);
+### Delete a value
+```javascript
+let key = 'key1';
+
+await schain.delete(key).then(result => {
+    console.log(result);
 }).catch(error => {
-  res.send(error);
+    console.log(error);
 })
 ```
 
