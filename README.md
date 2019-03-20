@@ -1,12 +1,12 @@
 # schain-sdk
 
-SChain Javascript SDK
+SChain Javascript SDK, provides a set of wrapper functions that help you accessing your chaincode.
 
 ## Prerequisite
 An API Key and an App ID are required while using the SDK. Read the [Get started](https://github.com/issbgkh/schain-get-started) guide to get them.
 
 ## Install package
-* npm i schain_sdk
+npm i schain_sdk
 
 ## Usage
 
@@ -22,6 +22,8 @@ const App_ID = 'app-38b30623-c207-4025-8c80-69df51f822c2';
 schain.init(API_Key, App_ID)
 ```
 ### Register an user
+If your apps need to distinguish user identities, you can register an user by calling **register**.
+
 ```javascript
 let username = 'user01';
 
@@ -31,9 +33,12 @@ await schain.register(username).then(data => {
     console.log(error);
 });
 ```
-### Invoke chaincode
+
+### Invoke a chaincode function
+Invoke a chaincode function to update the blockchain ledger data.
+
 ```javascript
-// Specify an user identity that is used to invoke the chaincode.
+// Specify an user identity that is used to invoke the chaincode function.
 // A null value is allowed if user identity is not that important for this function.
 let username = 'user01';
 
@@ -49,13 +54,16 @@ await scass_sdk.invokeChainCode(username, func, args).then(data => {
     console.log(error);
 });
 ```
-### Query chaincode
+
+### Query a chaincode function
+Query blockchain ledger data by querying a chaincode function.
+
 ```javascript
-// Specify an user identity that is used to query the chaincode
+// Specify an user identity that is used to query the chaincode function.
 // A null value is allowed if user identity is not that important for this function.
 let username = 'user01';
 
-// The function name to be invoked for querying
+// The function name to be queried
 let func = 'query';
 
 // The arguments to be passed to the function
