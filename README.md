@@ -33,13 +33,14 @@ await schain.register(username).then(data => {
 ```
 ### Invoke chaincode
 ```javascript
-// specify an user identity that is used to invoke the chaincode
+// Specify an user identity that is used to invoke the chaincode.
+// A null value is allowed if user identity is not that important for this function.
 let username = 'user01';
 
-// the function name to be invoked
+// The function name to be invoked
 let func = 'invoke';
 
-// the arguments to be passed to the function
+// The arguments to be passed to the function
 let args = '["a", "b", "c"]';
 
 await scass_sdk.invokeChainCode(username, func, args).then(data => {
@@ -50,13 +51,14 @@ await scass_sdk.invokeChainCode(username, func, args).then(data => {
 ```
 ### Query chaincode
 ```javascript
-// specify an user identity that is used to query the chaincode
+// Specify an user identity that is used to query the chaincode
+// A null value is allowed if user identity is not that important for this function.
 let username = 'user01';
 
-// the function name to be invoked for querying
+// The function name to be invoked for querying
 let func = 'query';
 
-// the arguments to be passed to the function
+// The arguments to be passed to the function
 let args = '["a"]';
 
 await schain.queryChainCode(username, func, args).then(data => {
@@ -67,8 +69,7 @@ await schain.queryChainCode(username, func, args).then(data => {
 ```
 
 ## Simple store template
-The SDK provides a set of convenient functions that support the [simple store chaincode template](https://github.com/issbgkh/simple-store)
-
+The SDK provides a set of convenient functions that support the [simple store chaincode template.](https://github.com/issbgkh/simple-store)
 
 ### Set a value
 ```javascript
@@ -79,10 +80,10 @@ await schain.set(key, value).then(result => {
     console.log('done');
 }).catch(error => {
   res.send(error);
-})
+});
 ```
 
-### Get a value by key
+### Get a value
 ```javascript
 let key = 'key1';
 
@@ -90,7 +91,7 @@ await schain.get(key).then(value => {
     console.log('a=' + value);
 }).catch(error => {
     console.log(error);
-})
+});
 ```
 
 ### Delete a value
@@ -101,7 +102,7 @@ await schain.delete(key).then(result => {
     console.log(result);
 }).catch(error => {
     console.log(error);
-})
+});
 ```
 
 ## License
