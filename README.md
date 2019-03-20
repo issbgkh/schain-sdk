@@ -48,7 +48,7 @@ let func = 'invoke';
 // The arguments to be passed to the function
 let args = '["a", "b", "c"]';
 
-await scass_sdk.invokeChainCode(username, func, args).then(result => {
+await sc.invokeChainCode(username, func, args).then(result => {
     console.log('done');
 }).catch(error => {
     console.log(error);
