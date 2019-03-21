@@ -102,12 +102,20 @@ sdk.delete = async (key) => {
 //====================================
 sdk.invokeChainCode = async (user_name, fcn, args) => {
   console.log("exec invoke chain code");
-  return execChainCode(CHAIN_CODE_EXEC.INVOKE, user_name, fcn, args);
+  var args_var = args;
+  if (typeof args === 'array' || args instanceof Array) {
+    args_var = JSON.stringify(args);
+  }
+  return execChainCode(CHAIN_CODE_EXEC.INVOKE, user_name, fcn, args_var);
 }
 
 sdk.queryChainCode = async (user_name, fcn, args) => {
   console.log("exec query chain code");
-  return execChainCode(CHAIN_CODE_EXEC.QUERY, user_name, fcn, args);
+  var args_var = args;
+  if (typeof args === 'array' || args instanceof Array) {
+    args_var = JSON.stringify(args);
+  }
+  return execChainCode(CHAIN_CODE_EXEC.QUERY, user_name, fcn, args_var);
 };
 
 execChainCode = async (exec, user_name, fcn, args) => {

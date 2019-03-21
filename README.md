@@ -47,7 +47,7 @@ let username = 'user01';
 let func = 'invoke';
 
 // The arguments to be passed to the function
-let args = '["a", "b", "c"]';
+let args = ["a", "b", "c"];
 
 await schain.invokeChainCode(username, func, args).then(result => {
     console.log('done');
@@ -68,7 +68,7 @@ let username = 'user01';
 let func = 'query';
 
 // The arguments to be passed to the function
-let args = '["a"]';
+let args = ["a"];
 
 await schain.queryChainCode(username, func, args).then(result => {
     console.log(result);
