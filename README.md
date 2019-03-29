@@ -88,7 +88,7 @@ let value = '100';
 await schain.set(key, value).then(result => {
     console.log('done');
 }).catch(error => {
-  res.send(error);
+    console.log(error);
 });
 ```
 
