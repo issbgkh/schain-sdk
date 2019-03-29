@@ -97,7 +97,7 @@ await schain.set(key, value).then(result => {
 let key = 'key1';
 
 await schain.get(key).then(value => {
-    console.log('a=' + value);
+    console.log('value=' + value);
 }).catch(error => {
     console.log(error);
 });
