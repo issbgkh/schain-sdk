@@ -63,6 +63,7 @@ await schain.delete(key).then(result => {
 ## Custom chaincode
 
 Not only the chaincode template, the SDK also supports your custom chaincode.
+
 With the SDK, you can invoke and query functions defined in your custom chaincode.
 
 ### Register an user
