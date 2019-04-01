@@ -63,7 +63,7 @@ await schain.delete(key).then(result => {
 ## Custom chaincode
 
 Not only the chaincode template, the SDK also supports your custom chaincode.
-With the SDK, you can register user identities, invoke functions and query functions.
+With the SDK, you can invoke and query functions defined in your custom chaincode.
 
 ### Register an user
 If your apps need to distinguish user identities, you can register an user by calling **register**.
