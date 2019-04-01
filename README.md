@@ -22,6 +22,49 @@ const APP_ID = 'app-38b30623-c207-4025-8c80-69df51f822c2';
 
 schain.init(API_KEY, APP_ID)
 ```
+
+## Simple store template
+The SDK provides a set of convenient functions that support the [simple store template](https://github.com/issbgkh/simple-store) chaincode.
+
+### Set a value
+```javascript
+let key = 'key1';
+let value = '100';
+
+await schain.set(key, value).then(result => {
+    console.log('done');
+}).catch(error => {
+    console.log(error);
+});
+```
+
+### Get a value
+```javascript
+let key = 'key1';
+
+await schain.get(key).then(value => {
+    console.log('value=' + value);
+}).catch(error => {
+    console.log(error);
+});
+```
+
+### Delete a value
+```javascript
+let key = 'key1';
+
+await schain.delete(key).then(result => {
+    console.log(result);
+}).catch(error => {
+    console.log(error);
+});
+```
+
+## Custom chaincode
+
+Not only the chaincode template, the SDK also supports your custom chaincode.
+With the SDK, you can register user identities, invoke functions and query functions.
+
 ### Register an user
 If your apps need to distinguish user identities, you can register an user by calling **register**.
 
@@ -71,43 +114,6 @@ let func = 'query';
 let args = ['a'];
 
 await schain.queryChainCode(username, func, args).then(result => {
-    console.log(result);
-}).catch(error => {
-    console.log(error);
-});
-```
-
-## Simple store template
-The SDK provides a set of convenient functions that support the [simple store template](https://github.com/issbgkh/simple-store) chaincode.
-
-### Set a value
-```javascript
-let key = 'key1';
-let value = '100';
-
-await schain.set(key, value).then(result => {
-    console.log('done');
-}).catch(error => {
-    console.log(error);
-});
-```
-
-### Get a value
-```javascript
-let key = 'key1';
-
-await schain.get(key).then(value => {
-    console.log('value=' + value);
-}).catch(error => {
-    console.log(error);
-});
-```
-
-### Delete a value
-```javascript
-let key = 'key1';
-
-await schain.delete(key).then(result => {
     console.log(result);
 }).catch(error => {
     console.log(error);
