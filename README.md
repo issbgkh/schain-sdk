@@ -72,7 +72,7 @@ await schain.delete(key).then(result => {
 SDK 也提供了方法來存取你自行撰寫的 Chaincode 代碼函數。
 
 ### 註冊使用者身份
-若你的應用程式必需區隔不同的使用者身份，可以使用 **register** 函數來創建使用者身份。
+若你的應用程式需要區隔不同的使用者身份，可以使用 **register** 函數來創建使用者身份。
 
 ```javascript
 let username = 'user01';
