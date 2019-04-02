@@ -1,38 +1,32 @@
 # schain-sdk
 
-透過 SChain Javascript SDK，開發者可撰寫應用程式來存取區塊鍊中的 Chaincode 代碼。
+SChain Javascript SDK, provides a set of wrapper functions that help you accessing your chaincode.
 
-## 前置作業
+## Prerequisite
+An API KEY and an APP ID are required while using the SDK. Read the [Get started](https://github.com/issbgkh/schain-get-started) guide to get them.
 
-開始使用 SDK 之前，你需要先在開發者中心取得 API KEY 及 APP ID。
-
-若你尚未閱讀 [Get started](https://github.com/issbgkh/schain-get-started)，我們強烈建議你立即前往。
-
-## 安裝套件
-```javascript
+## Install package
 npm i schain_sdk
-```
 
-## 引入套件
+## Usage
 
+### Import package
 ```javascript
 const schain = require('schain_sdk');
 ```
-## 初始化
+### Initialize
 ```javascript
-// 請貼上你的 API KEY 及 APP ID
+// Replace API_KEY and APP_ID with yours
 const API_KEY = '5d5b9cbd55cc6725f82dabba0632fe6e';
 const APP_ID = 'app-38b30623-c207-4025-8c80-69df51f822c2';
 
 schain.init(API_KEY, APP_ID)
 ```
 
+## Simple store template
+The SDK provides a set of convenient functions that support the [simple store template](https://github.com/issbgkh/simple-store) chaincode.
 
-# 資料儲存樣板
-
-SDK 特別提供了存取 [資料儲存樣板](https://github.com/issbgkh/simple-store) 的函數接口。
-
-### 寫入一個 key-value 鍵值
+### Set a value
 ```javascript
 let key = 'key1';
 let value = '100';
@@ -44,7 +38,7 @@ await schain.set(key, value).then(result => {
 });
 ```
 
-### 取得一個鍵值
+### Get a value
 ```javascript
 let key = 'key1';
 
@@ -55,7 +49,7 @@ await schain.get(key).then(value => {
 });
 ```
 
-### 刪除一個鍵值
+### Delete a value
 ```javascript
 let key = 'key1';
 
@@ -66,13 +60,14 @@ await schain.delete(key).then(result => {
 });
 ```
 
+## Custom chaincode
 
-# 存取自行撰寫的 Chaincode 代碼
+Not only the chaincode template, the SDK also supports your custom chaincode.
 
-SDK 也提供了方法來存取你自行撰寫的 Chaincode 代碼函數。
+With the SDK, you can invoke and query functions defined in your custom chaincode.
 
-### 註冊使用者身份
-若你的應用程式需要區隔不同的使用者身份，可以使用 **register** 函數來創建使用者身份。
+### Register an user
+If your apps need to distinguish user identities, you can register an user by calling **register**.
 
 ```javascript
 let username = 'user01';
@@ -84,18 +79,18 @@ await schain.register(username).then(result => {
 });
 ```
 
-### 更新分散式帳本
-透過調用 Chaincode 函數來更新分散式帳本。
+### Invoke a chaincode function
+Invoke a chaincode function to update the blockchain ledger data.
 
 ```javascript
-// 指名要用來調用此函數的使用者身份
-// 可設定為 null，表示要調用的函數無需區分使用者身份
+// Specify an user identity that is used to invoke the chaincode function.
+// A null value is allowed if user identity is not that important for this function.
 let username = 'user01';
 
-// 要調用的函數名稱
+// The function name to be invoked
 let func = 'invoke';
 
-// 函數參數
+// The arguments to be passed to the function
 let args = ['a', 'b', 'c'];
 
 await schain.invokeChainCode(username, func, args).then(result => {
@@ -105,18 +100,18 @@ await schain.invokeChainCode(username, func, args).then(result => {
 });
 ```
 
-### 查詢分散式帳本
-透過調用 Chaincode 函數來查詢分散式帳本。
+### Query a chaincode function
+Query blockchain ledger data by querying a chaincode function.
 
 ```javascript
-// 指名要用來調用此函數的使用者身份
-// 可設定為 null，表示要調用的函數無需區分使用者身份
+// Specify an user identity that is used to query the chaincode function.
+// A null value is allowed if user identity is not that important for this function.
 let username = 'user01';
 
-// 要調用的函數名稱
+// The function name to be queried
 let func = 'query';
 
-// 函數參數
+// The arguments to be passed to the function
 let args = ['a'];
 
 await schain.queryChainCode(username, func, args).then(result => {
