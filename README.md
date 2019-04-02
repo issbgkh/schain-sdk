@@ -141,17 +141,34 @@ await schain.upload_file(file).then(result => {
 });
 ```
 
-### 刪除檔案
+### 取得檔案清單
 ```javascript
-// 檔案名稱
-let file_name = "file.jpg";
+// options 為取得檔案清單規則的條件設定
+var options = {
+  maxKeys: 1000,
+  prefix: "prifix_key",
+  startAfter: "file_key",
+  continuationToken: "token",
+  delimiter: "group_key",
+  encodingType: 'url'
+};
 
-await schain.delete_file(file_name).then(result => {
-    console.log(result);
+// 設定檔案清單規則
+await schain.get_file_list(options).then(list => {
+    console.log(list);
+}).catch(error => {
+    console.log(error);
+});
+
+// 不設定檔案清單規則
+await schain.get_file_list().then(list => {
+    console.log(list);
 }).catch(error => {
     console.log(error);
 });
 ```
+
+關於 options 之詳細設定請參考 [AWS S3官方文件](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
 
 ### 取得檔案 Hash 值
 ```javascript
@@ -180,33 +197,17 @@ await schain.download_file(file_name, path).then(data => {
 });
 ```
 
-### 取得檔案清單
+### 刪除檔案
 ```javascript
-// options 為取得檔案清單規則的條件設定
-var options = {
-  maxKeys: 1000,
-  prefix: "prifix_key",
-  startAfter: "file_key",
-  continuationToken: "token",
-  delimiter: "group_key",
-  encodingType: 'url'
-};
+// 檔案名稱
+let file_name = "file.jpg";
 
-// 設定檔案清單規則
-await schain.get_file_list(options).then(list => {
-    console.log(list);
-}).catch(error => {
-    console.log(error);
-});
-
-// 不設定檔案清單規則
-await schain.get_file_list().then(list => {
-    console.log(list);
+await schain.delete_file(file_name).then(result => {
+    console.log(result);
 }).catch(error => {
     console.log(error);
 });
 ```
-關於 options 之詳細設定請參考 [AWS S3官方文件](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
 
 ## License
 Copyright 2019 S-Chain Technologies Limited
