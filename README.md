@@ -88,9 +88,6 @@ await schain.register(username).then(result => {
 透過調用 Chaincode 函數來更新分散式帳本。
 
 ```javascript
-// Specify an user identity that is used to invoke the chaincode function.
-// A null value is allowed if user identity is not that important for this function.
-
 // 指名要用來調用此函數的使用者身份
 // 可設定為 null，表示要調用的函數無需區分使用者身份
 let username = 'user01';
