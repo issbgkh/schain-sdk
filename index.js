@@ -1,5 +1,6 @@
 const request = require('request');
 const crypto = require('crypto');
+const http = require('http');
 const fs = require('fs');
 const fsPath = require('fs-path');
 
@@ -79,6 +80,140 @@ sdk.register = async (name) => {
     });
   })
 };
+
+//==========File Manager for S3=========
+sdk.upload_file = async (id, file_key, file) => {
+  var url = FW_URL + "/files"
+  console.debug(tag, "url:" + url)
+
+  var options = {
+    url: url,
+    headers: {
+      'x-api-key': API_KEY,
+      'Content-Type': 'multipart/form-data'
+    },
+    formData: {
+      id: id,
+      file_key: file_key,
+      file: fs.createReadStream(file.path)
+    },
+    method: 'POST'
+  };
+
+  return new Promise(function(resolve, reject) {
+    request(options, function(error, response, body) {
+      console.debug(tag, body);
+      if (!error && response.statusCode == 200) {
+        resolve(JSON.parse(body));
+      } else {
+        reject(JSON.parse(body));
+      }
+    });
+  })
+}
+
+sdk.delete_file = async (id, file_key) => {
+  var url = FW_URL + "/files/" + id + "/" + file_key
+  console.debug(tag, "url:" + url)
+
+  var options = {
+    url: url,
+    headers: {
+      'x-api-key': API_KEY,
+    },
+    method: 'DELETE'
+  };
+
+  return new Promise(function(resolve, reject) {
+    request(options, function(error, response, body) {
+      console.debug(tag, body);
+      if (!error && response.statusCode == 200) {
+        resolve(JSON.parse(body));
+      } else {
+        reject(JSON.parse(body));
+      }
+    });
+  })
+}
+
+sdk.get_file_hash = async (id, file_key) => {
+  var url = FW_URL + "/files/" + id + "/hash/" + file_key
+  console.debug(tag, "url:" + url)
+
+  var options = {
+    url: url,
+    headers: {
+      'x-api-key': API_KEY,
+    },
+    method: 'GET'
+  };
+
+  return new Promise(function(resolve, reject) {
+    request(options, function(error, response, body) {
+      console.debug(tag, body);
+      if (!error && response.statusCode == 200) {
+        resolve(JSON.parse(body));
+      } else {
+        reject(JSON.parse(body));
+      }
+    });
+  })
+}
+
+sdk.download_file = async (id, file_key, downloadDir) => {
+  var url = FW_URL + "/files/" + id + "/download/" + file_key
+  console.debug(tag, "url:" + url)
+
+  var options = {
+    url: url,
+    headers: {
+      'x-api-key': API_KEY
+    },
+    method: 'GET'
+  };
+
+
+  return new Promise(function(resolve, reject) {
+    try {
+      ensureDirSync(downloadDir);
+
+      var req = request(options, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          resolve(JSON.parse("{}"));
+        } else {
+          reject(error);
+        }
+      });
+
+      var stream = fs.createWriteStream(downloadDir + "/" + file_key);
+      req.pipe(stream);
+    } catch (err) {
+      reject(err);
+    }
+  })
+}
+
+sdk.get_file_list = async (id, options = {}) => {
+  var url = FW_URL + "/files/" + id;
+  var options = {
+    url: url,
+    headers: {
+      'x-api-key': API_KEY
+    },
+    qs: options,
+    method: 'GET'
+  };
+
+  return new Promise(function(resolve, reject) {
+    var req = request(options, function(error, response, body) {
+      if (!error && response.statusCode == 200) {
+        resolve(JSON.parse(body));
+      } else {
+        reject(JSON.parse(body));
+      }
+    });
+  })
+}
 
 //==========CURD Template SDK==========
 sdk.get = async (key) => {
@@ -204,6 +339,16 @@ execChainCode = async (exec, user_name, fcn, args) => {
       }
     });
   })
+}
+
+function ensureDirSync(dirpath) {
+  try {
+    fs.mkdirSync(dirpath, {
+      recursive: true
+    })
+  } catch (err) {
+    if (err.code !== 'EEXIST') throw err
+  }
 }
 
 module.exports = sdk;
