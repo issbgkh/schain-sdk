@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const http = require('http');
 const fs = require('fs');
 const fsPath = require('fs-path');
+const path = require('path');
 
 const FW_URL = "http://ec2-13-231-26-144.ap-northeast-1.compute.amazonaws.com:9000/v1";
 
@@ -82,9 +83,15 @@ sdk.register = async (name) => {
 };
 
 //==========File Manager for S3=========
-sdk.upload_file = async (file_name, file) => {
+sdk.upload_file = async (file_path) => {
   var url = FW_URL + "/files"
   console.debug(tag, "url:" + url)
+
+  if (!fs.existsSync(file_path)) {
+    return {
+      error: "File is not exist"
+    };
+  }
 
   var options = {
     url: url,
@@ -94,8 +101,8 @@ sdk.upload_file = async (file_name, file) => {
     },
     formData: {
       id: APP_ID,
-      file_key: file_name,
-      file: fs.createReadStream(file.path)
+      file_key: path.basename(file_path),
+      file: fs.createReadStream(file_path)
     },
     method: 'POST'
   };
@@ -181,14 +188,15 @@ sdk.download_file = async (file_name, downloadDir) => {
         if (!error && response.statusCode == 200) {
           resolve(JSON.parse("{}"));
         } else {
-          reject(error);
+          reject("Can't download file: " + file_name);
+          fs.unlinkSync(downloadDir + "/" + file_name);
         }
       });
 
       var stream = fs.createWriteStream(downloadDir + "/" + file_name);
       req.pipe(stream);
     } catch (err) {
-      reject(err);
+      reject("Can't download file: " + file_name);
     }
   })
 }

@@ -131,10 +131,10 @@ SDK提供檔案管理的方法, 即可對檔案上傳, 下載, 刪除以及取�
 
 ### 上傳檔案
 ```javascript
-//file為上傳的檔案物件
-let file = [file_object];
+//file_path為上傳的檔案路徑
+let file_path = "./file.jpg";
 
-await schain.upload_file(file).then(result => {
+await schain.upload_file(file_path).then(result => {
   res.send(result);
 }).catch(error => {
   res.send(error);
@@ -171,7 +171,7 @@ await schain.get_file_hash(file_name).then(result => {
 let file_name = "file.jpg";
 
 //path為下載儲存檔案的路徑, 本範例會在根目錄下建立download資料夾存放檔案
-let path = "download";
+let path = "./download";
 
 await schain.download_file(file_name, path).then(data => {
   res.send(data);
