@@ -21,24 +21,24 @@ var CHAIN_CODE_EXEC = {
 }
 
 var API_KEY = "";
-var CHAIN_CODE_ID = "";
+var APP_ID = "";
 
-sdk.init = function(apikey, chain_code_id) {
+sdk.init = function(apikey, appid) {
   if (!apikey) {
     return {
       error: "Api key is not defined"
     };
   }
 
-  if (!chain_code_id) {
+  if (!appid) {
     return {
-      error: "Chain code id is not defined"
+      error: "App id is not defined"
     };
   }
 
-  console.log("init API_KEY:" + apikey + " CHAIN_CODE_ID:" + chain_code_id);
+  console.log("init API_KEY:" + apikey + " APP_ID:" + appid);
   API_KEY = apikey;
-  CHAIN_CODE_ID = chain_code_id;
+  APP_ID = appid;
 }
 
 sdk.register = async (name) => {
@@ -82,7 +82,7 @@ sdk.register = async (name) => {
 };
 
 //==========File Manager for S3=========
-sdk.upload_file = async (id, file_key, file) => {
+sdk.upload_file = async (file_name, file) => {
   var url = FW_URL + "/files"
   console.debug(tag, "url:" + url)
 
@@ -93,8 +93,8 @@ sdk.upload_file = async (id, file_key, file) => {
       'Content-Type': 'multipart/form-data'
     },
     formData: {
-      id: id,
-      file_key: file_key,
+      id: APP_ID,
+      file_key: file_name,
       file: fs.createReadStream(file.path)
     },
     method: 'POST'
@@ -112,8 +112,8 @@ sdk.upload_file = async (id, file_key, file) => {
   })
 }
 
-sdk.delete_file = async (id, file_key) => {
-  var url = FW_URL + "/files/" + id + "/" + file_key
+sdk.delete_file = async (file_name) => {
+  var url = FW_URL + "/files/" + APP_ID + "/" + file_name
   console.debug(tag, "url:" + url)
 
   var options = {
@@ -136,8 +136,8 @@ sdk.delete_file = async (id, file_key) => {
   })
 }
 
-sdk.get_file_hash = async (id, file_key) => {
-  var url = FW_URL + "/files/" + id + "/hash/" + file_key
+sdk.get_file_hash = async (file_name) => {
+  var url = FW_URL + "/files/" + APP_ID + "/hash/" + file_name
   console.debug(tag, "url:" + url)
 
   var options = {
@@ -160,8 +160,8 @@ sdk.get_file_hash = async (id, file_key) => {
   })
 }
 
-sdk.download_file = async (id, file_key, downloadDir) => {
-  var url = FW_URL + "/files/" + id + "/download/" + file_key
+sdk.download_file = async (file_name, downloadDir) => {
+  var url = FW_URL + "/files/" + APP_ID + "/download/" + file_name
   console.debug(tag, "url:" + url)
 
   var options = {
@@ -185,7 +185,7 @@ sdk.download_file = async (id, file_key, downloadDir) => {
         }
       });
 
-      var stream = fs.createWriteStream(downloadDir + "/" + file_key);
+      var stream = fs.createWriteStream(downloadDir + "/" + file_name);
       req.pipe(stream);
     } catch (err) {
       reject(err);
@@ -193,8 +193,8 @@ sdk.download_file = async (id, file_key, downloadDir) => {
   })
 }
 
-sdk.get_file_list = async (id, options = {}) => {
-  var url = FW_URL + "/files/" + id;
+sdk.get_file_list = async (options = {}) => {
+  var url = FW_URL + "/files/" + APP_ID;
   var options = {
     url: url,
     headers: {
@@ -261,17 +261,17 @@ execChainCode = async (exec, user_name, fcn, args) => {
     };
   }
 
-  if (!CHAIN_CODE_ID) {
+  if (!APP_ID) {
     return {
-      error: "Chain code id is not defined"
+      error: "App id is not defined"
     };
   }
 
   var query_url = "";
   if (exec == CHAIN_CODE_EXEC.QUERY) {
-    query_url = FW_URL + "/chaincode/" + CHAIN_CODE_ID + "/query"
+    query_url = FW_URL + "/chaincode/" + APP_ID + "/query"
   } else if (exec == CHAIN_CODE_EXEC.INVOKE) {
-    query_url = FW_URL + "/chaincode/" + CHAIN_CODE_ID + "/invoke"
+    query_url = FW_URL + "/chaincode/" + APP_ID + "/invoke"
   }
 
   var user_private_key = "";
@@ -309,7 +309,7 @@ execChainCode = async (exec, user_name, fcn, args) => {
 
   console.debug(tag, "apikey:", API_KEY);
   console.debug(tag, 'chain_code_url:', query_url);
-  console.debug(tag, 'chain_code_id:', CHAIN_CODE_ID);
+  console.debug(tag, 'appid:', APP_ID);
   console.debug(tag, 'user_name:', user_name);
   console.debug(tag, 'user_private_key:', user_private_key);
   console.debug(tag, 'signature:', signature);
