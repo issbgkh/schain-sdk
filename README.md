@@ -1,4 +1,4 @@
-# schain-sdk
+# SChain Javascript SDK
 
 透過 SChain Javascript SDK，開發者可撰寫應用程式來存取區塊鍊中的 Chaincode 代碼。
 
