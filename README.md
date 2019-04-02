@@ -144,7 +144,7 @@ await schain.upload_file(file).then(result => {
 ### 刪除檔案
 ```javascript
 //file_name為要刪除的檔案名稱
-let file_name = "test.jpg";
+let file_name = "file.jpg";
 
 await schain.delete_file(file_name).then(result => {
   res.send(result);
@@ -156,7 +156,7 @@ await schain.delete_file(file_name).then(result => {
 ### 取得檔案Hash值
 ```javascript
 //file_name為要取得Hash值的檔案名稱
-let file_name = "test.jpg";
+let file_name = "file.jpg";
 
 await schain.get_file_hash(file_name).then(result => {
   res.send(result);
@@ -168,7 +168,7 @@ await schain.get_file_hash(file_name).then(result => {
 ### 下載檔案
 ```javascript
 //file_name為要下載的檔案名稱
-let file_name = "test.jpg";
+let file_name = "file.jpg";
 
 //path為下載儲存檔案的路徑, 本範例會在根目錄下建立download資料夾存放檔案
 let path = "download";
@@ -185,10 +185,10 @@ await schain.download_file(file_name, path).then(data => {
 //options為取得檔案清單規則的條件設定
 var options = {
   maxKeys: 1000,
-  prefix: "test",
-  startAfter: "test",
-  continuationToken: "",
-  delimiter: "",
+  prefix: "prifix_key",
+  startAfter: "file_key",
+  continuationToken: "token",
+  delimiter: "group_key",
   encodingType: 'url'
 };
 
@@ -206,7 +206,7 @@ await schain.get_file_list().then(data => {
   res.send(error);
 })
 ```
-options詳細設定說明請參考 [Aws S3官方文件](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
+options 詳細設定說明請參考 [Aws S3官方文件](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
 
 ## License
 Copyright 2019 S-Chain Technologies Limited
