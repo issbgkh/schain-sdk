@@ -127,7 +127,7 @@ await schain.queryChainCode(username, func, args).then(result => {
 ```
 
 # 資料儲存管理
-SDK提供空間儲存的方法, 即可對檔案上傳, 下載, 刪除以及或取檔案清單列表, 提供100MB空間供開發者使用
+SDK提供檔案管理的方法, 即可對檔案上傳, 下載, 刪除以及或取檔案Hash值與清單列表, 提供100MB空間供開發者使用
 
 ### 上傳檔案
 ```javascript
@@ -183,7 +183,7 @@ await schain.download_file(file_name, path).then(data => {
 ### 取得檔案清單
 ```javascript
 //options為取得檔案清單規則的條件設定
-//詳細設定說明請參考 [S3官方網站] (https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
+詳細設定說明請參考 [S3官方網站] (https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
 
 var options = {
   maxKeys: 1000,
