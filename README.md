@@ -126,6 +126,89 @@ await schain.queryChainCode(username, func, args).then(result => {
 });
 ```
 
+# 資料儲存管理
+SDK提供空間儲存的方法, 即可對檔案上傳, 下載, 刪除以及或取檔案清單列表, 提供100MB空間供開發者使用
+
+### 上傳檔案
+```javascript
+//file為上傳的檔案物件
+let file = [file_object];
+
+await schain.upload_file(file).then(result => {
+  res.send(result);
+}).catch(error => {
+  res.send(error);
+})
+```
+
+### 刪除檔案
+```javascript
+//file_name為要刪除的檔案名稱
+let file_name = "test.jpg";
+
+await schain.delete_file(file_name).then(result => {
+  res.send(result);
+}).catch(error => {
+  res.send(error);
+})
+```
+
+### 取得檔案Hash值
+```javascript
+//file_name為要取得Hash值的檔案名稱
+let file_name = "test.jpg";
+
+await schain.get_file_hash(file_name).then(result => {
+  res.send(result);
+}).catch(error => {
+  res.send(error);
+})
+```
+
+### 下載檔案
+```javascript
+//file_name為要下載的檔案名稱
+let file_name = "test.jpg";
+
+//path為下載儲存檔案的路徑, 本範例會在根目錄下建立download資料夾存放檔案
+let path = "download";
+
+await schain.download_file(file_name, path).then(data => {
+  res.send(data);
+}).catch(error => {
+  res.send(error);
+})
+```
+
+### 取得檔案清單
+```javascript
+//options為取得檔案清單規則的條件設定
+//詳細設定說明請參考 [S3官方網站] (https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
+
+var options = {
+  maxKeys: 1000,
+  prefix: "test",
+  startAfter: "test",
+  continuationToken: "",
+  delimiter: "",
+  encodingType: 'url'
+};
+
+//設定檔案清單規則
+await schain.get_file_list(options).then(data => {
+  res.send(data);
+}).catch(error => {
+  res.send(error);
+})
+
+//不設定檔案清單規則
+await schain.get_file_list().then(data => {
+  res.send(data);
+}).catch(error => {
+  res.send(error);
+})
+```
+
 ## License
 Copyright 2019 S-Chain Technologies Limited
 

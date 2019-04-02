@@ -193,14 +193,14 @@ sdk.download_file = async (file_name, downloadDir) => {
   })
 }
 
-sdk.get_file_list = async (options = {}) => {
+sdk.get_file_list = async (s3_option = {}) => {
   var url = FW_URL + "/files/" + APP_ID;
   var options = {
     url: url,
     headers: {
       'x-api-key': API_KEY
     },
-    qs: options,
+    qs: s3_option,
     method: 'GET'
   };
 
