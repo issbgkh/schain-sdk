@@ -126,7 +126,7 @@ await schain.queryChainCode(username, func, args).then(result => {
 });
 ```
 
-# 資料儲存管理
+# 檔案儲存管理
 SDK提供檔案管理的方法, 即可對檔案上傳, 下載, 刪除以及取得檔案Hash值與清單列表, 提供100MB空間供開發者使用
 
 ### 上傳檔案
