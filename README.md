@@ -127,7 +127,10 @@ await schain.queryChainCode(username, func, args).then(result => {
 ```
 
 # 檔案儲存管理
-SDK提供檔案管理的方法, 即可對檔案上傳, 下載, 刪除以及取得檔案Hash值與清單列表, 提供100MB空間供開發者使用
+
+SChain 為每個開發者帳號提供了 100MB 的檔案儲存空間。
+
+所有儲存在 SChain 的檔案皆受到區塊鏈的嚴格保護，你可以透過 SDK 來管理你的檔案，也可以檢驗檔案的不可竄改性。
 
 ### 上傳檔案
 ```javascript
@@ -168,7 +171,7 @@ await schain.get_file_list().then(list => {
 });
 ```
 
-關於 options 之詳細設定請參考 [AWS S3官方文件](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
+關於 options 之詳細設定可參考 [AWS S3官方文件](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
 
 ### 取得檔案 Hash 值
 ```javascript
