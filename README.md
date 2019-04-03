@@ -127,62 +127,65 @@ await schain.queryChainCode(username, func, args).then(result => {
 ```
 
 # 檔案儲存管理
-SDK提供檔案管理的方法, 即可對檔案上傳, 下載, 刪除以及取得檔案Hash值與清單列表, 提供100MB空間供開發者使用
+
+SChain 為每個開發者帳號提供了 100MB 的檔案儲存空間。
+
+所有儲存在 SChain 的檔案皆受到區塊鏈的嚴格保護，你可以透過 SDK 來管理你的檔案，也可以檢驗檔案的不可竄改性。
 
 ### 上傳檔案
 ```javascript
-//file_path為上傳的檔案路徑
+// 上傳的檔案路徑
 let file_path = "./file.jpg";
 
 await schain.upload_file(file_path).then(result => {
-  res.send(result);
+    console.log(result);
 }).catch(error => {
-  res.send(error);
-})
+    console.log(error);
+});
 ```
 
 ### 刪除檔案
 ```javascript
-//file_name為要刪除的檔案名稱
+// 刪除的檔案名稱
 let file_name = "file.jpg";
 
 await schain.delete_file(file_name).then(result => {
-  res.send(result);
+    console.log(result);
 }).catch(error => {
-  res.send(error);
-})
+    console.log(error);
+});
 ```
 
-### 取得檔案Hash值
+### 取得檔案 Hash 值
 ```javascript
-//file_name為要取得Hash值的檔案名稱
+// 檔案名稱
 let file_name = "file.jpg";
 
 await schain.get_file_hash(file_name).then(result => {
-  res.send(result);
+    console.log(result);
 }).catch(error => {
-  res.send(error);
-})
+    console.log(error);
+});
 ```
 
 ### 下載檔案
 ```javascript
-//file_name為要下載的檔案名稱
+// 檔案名稱
 let file_name = "file.jpg";
 
-//path為下載儲存檔案的路徑, 本範例會在根目錄下建立download資料夾存放檔案
+// 存放下載檔案的目錄, 本範例會在根目錄下建立 download 資料夾存放檔案
 let path = "./download";
 
 await schain.download_file(file_name, path).then(data => {
-  res.send(data);
+    console.log(data);
 }).catch(error => {
-  res.send(error);
-})
+    console.log(error);
+});
 ```
 
 ### 取得檔案清單
 ```javascript
-//options為取得檔案清單規則的條件設定
+// options 為取得檔案清單規則的條件設定
 var options = {
   maxKeys: 1000,
   prefix: "prifix_key",
@@ -192,21 +195,22 @@ var options = {
   encodingType: 'url'
 };
 
-//設定檔案清單規則
+// 設定檔案清單規則
 await schain.get_file_list(options).then(data => {
-  res.send(data);
+    console.log(data);
 }).catch(error => {
-  res.send(error);
-})
+    console.log(error);
+});
 
-//不設定檔案清單規則
+// 不設定檔案清單規則
 await schain.get_file_list().then(data => {
-  res.send(data);
+    console.log(data);
 }).catch(error => {
-  res.send(error);
-})
+    console.log(error);
+});
+  res.send(data);
 ```
-options 詳細設定說明請參考 [Aws S3官方文件](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
+關於 options 的詳細設定可參考 [AWS S3說明文件](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
 
 ## License
 Copyright 2019 S-Chain Technologies Limited
