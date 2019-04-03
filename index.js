@@ -37,12 +37,18 @@ sdk.init = function(apikey, appid) {
     };
   }
 
-  console.log("init API_KEY:" + apikey + " APP_ID:" + appid);
+  console.debug(tag, "init API_KEY:" + apikey + " APP_ID:" + appid);
   API_KEY = apikey;
   APP_ID = appid;
 }
 
 sdk.register = async (name) => {
+  if (!checkInitComplete()) {
+    return {
+      error: "Api key or App id is not defined"
+    };
+  }
+
   console.debug(tag, 'register_url:', FW_URL + "/user");
   console.debug(tag, 'register_name:', name);
 
@@ -84,14 +90,20 @@ sdk.register = async (name) => {
 
 //==========File Manager for S3=========
 sdk.upload_file = async (file_path) => {
-  var url = FW_URL + "/files"
-  console.debug(tag, "url:" + url)
+  if (!checkInitComplete()) {
+    return {
+      error: "Api key or App id is not defined"
+    };
+  }
 
   if (!fs.existsSync(file_path)) {
     return {
       error: "File is not exist"
     };
   }
+
+  var url = FW_URL + "/files"
+  console.debug(tag, "url:" + url);
 
   var options = {
     url: url,
@@ -120,6 +132,12 @@ sdk.upload_file = async (file_path) => {
 }
 
 sdk.delete_file = async (file_name) => {
+  if (!checkInitComplete()) {
+    return {
+      error: "Api key or App id is not defined"
+    };
+  }
+
   var url = FW_URL + "/files/" + APP_ID + "/" + file_name
   console.debug(tag, "url:" + url)
 
@@ -144,6 +162,12 @@ sdk.delete_file = async (file_name) => {
 }
 
 sdk.get_file_hash = async (file_name) => {
+  if (!checkInitComplete()) {
+    return {
+      error: "Api key or App id is not defined"
+    };
+  }
+
   var url = FW_URL + "/files/" + APP_ID + "/hash/" + file_name
   console.debug(tag, "url:" + url)
 
@@ -168,6 +192,12 @@ sdk.get_file_hash = async (file_name) => {
 }
 
 sdk.download_file = async (file_name, downloadDir) => {
+  if (!checkInitComplete()) {
+    return {
+      error: "Api key or App id is not defined"
+    };
+  }
+
   var url = FW_URL + "/files/" + APP_ID + "/download/" + file_name
   console.debug(tag, "url:" + url)
 
@@ -188,7 +218,9 @@ sdk.download_file = async (file_name, downloadDir) => {
         if (!error && response.statusCode == 200) {
           resolve(JSON.parse("{}"));
         } else {
-          reject("Can't download file: " + file_name);
+          reject({
+            error: "Can't download file: " + file_name
+          });
           fs.unlinkSync(downloadDir + "/" + file_name);
         }
       });
@@ -196,12 +228,20 @@ sdk.download_file = async (file_name, downloadDir) => {
       var stream = fs.createWriteStream(downloadDir + "/" + file_name);
       req.pipe(stream);
     } catch (err) {
-      reject("Can't download file: " + file_name);
+      reject({
+        error: "Can't download file: " + file_name
+      });
     }
   })
 }
 
 sdk.get_file_list = async (s3_option = {}) => {
+  if (!checkInitComplete()) {
+    return {
+      error: "Api key or App id is not defined"
+    };
+  }
+
   var url = FW_URL + "/files/" + APP_ID;
   var options = {
     url: url,
@@ -263,15 +303,9 @@ sdk.queryChainCode = async (user_name, fcn, args) => {
 
 execChainCode = async (exec, user_name, fcn, args) => {
 
-  if (!API_KEY) {
+  if (!checkInitComplete()) {
     return {
-      error: "Api key is not defined"
-    };
-  }
-
-  if (!APP_ID) {
-    return {
-      error: "App id is not defined"
+      error: "Api key or App id is not defined"
     };
   }
 
@@ -357,6 +391,13 @@ function ensureDirSync(dirpath) {
   } catch (err) {
     if (err.code !== 'EEXIST') throw err
   }
+}
+
+function checkInitComplete() {
+  if (!API_KEY || !APP_ID) {
+    return false;
+  }
+  return true;
 }
 
 module.exports = sdk;
