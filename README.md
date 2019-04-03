@@ -183,6 +183,21 @@ await schain.download_file(file_name, path).then(data => {
 });
 ```
 
+### 下載檔案並驗證完整性
+```javascript
+// 檔案名稱
+let file_name = "file.jpg";
+
+// 存放下載檔案的目錄, 本範例會在根目錄下建立 download 資料夾存放檔案
+let path = "./download";
+
+await schain.download_file_with_verify(file_name, path).then(data => {
+    console.log(data);
+}).catch(error => {
+    console.log(error);
+});
+```
+
 ### 取得檔案清單
 ```javascript
 // options 為取得檔案清單規則的條件設定

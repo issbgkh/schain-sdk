@@ -181,13 +181,77 @@ sdk.get_file_hash = async (file_name) => {
 
   return new Promise(function(resolve, reject) {
     request(options, function(error, response, body) {
-      console.debug(tag, body);
       if (!error && response.statusCode == 200) {
         resolve(JSON.parse(body));
       } else {
         reject(JSON.parse(body));
       }
     });
+  })
+}
+
+sdk.download_file_with_verify = async (file_name, downloadDir) => {
+  if (!checkInitComplete()) {
+    return {
+      error: "Api key or App id is not defined"
+    };
+  }
+
+  var url = FW_URL + "/files/" + APP_ID + "/download/" + file_name
+  console.debug(tag, "url:" + url)
+
+  var options = {
+    url: url,
+    headers: {
+      'x-api-key': API_KEY
+    },
+    method: 'GET'
+  };
+
+  return new Promise(function(resolve, reject) {
+    try {
+      ensureDirSync(downloadDir);
+
+      var req = request(options, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          sdk.get_file_hash(file_name).then(data => {
+            var block_chain_hash = data.hash;
+
+            var buffer = fs.readFileSync(downloadDir + "/" + file_name);
+            var fsHash = crypto.createHash('md5');
+            fsHash.update(buffer);
+            var file_hash = fsHash.digest('hex');
+
+            console.debug(tag, "block_chain_hash:" + block_chain_hash);
+            console.debug(tag, "file_hash:" + file_hash);
+
+            if (block_chain_hash == file_hash) {
+              resolve(JSON.parse("{}"));
+            } else {
+              reject({
+                error: "File is not correct"
+              });
+            }
+          }).catch(error => {
+            reject({
+              error: "Can't get file hash value"
+            });
+          })
+        } else {
+          reject({
+            error: "Can't download file: " + file_name
+          });
+          fs.unlinkSync(downloadDir + "/" + file_name);
+        }
+      });
+
+      var stream = fs.createWriteStream(downloadDir + "/" + file_name);
+      req.pipe(stream);
+    } catch (err) {
+      reject({
+        error: "Can't download file: " + file_name
+      });
+    }
   })
 }
 
