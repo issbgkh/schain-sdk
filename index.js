@@ -190,68 +190,45 @@ sdk.get_file_hash = async (file_name) => {
   })
 }
 
-sdk.download_file_with_verify = async (file_name, downloadDir) => {
+sdk.verify_file = async (file_path) => {
   if (!checkInitComplete()) {
     return {
       error: "Api key or App id is not defined"
     };
   }
 
-  var url = FW_URL + "/files/" + APP_ID + "/download/" + file_name
-  console.debug(tag, "url:" + url)
+  if (!fs.existsSync(file_path)) {
+    return {
+      error: "File is not exist"
+    };
+  }
 
-  var options = {
-    url: url,
-    headers: {
-      'x-api-key': API_KEY
-    },
-    method: 'GET'
-  };
+  var file_name = path.basename(file_path);
 
   return new Promise(function(resolve, reject) {
-    try {
-      ensureDirSync(downloadDir);
+    sdk.get_file_hash(file_name).then(data => {
+      var block_chain_hash = data.hash;
 
-      var req = request(options, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-          sdk.get_file_hash(file_name).then(data => {
-            var block_chain_hash = data.hash;
+      var buffer = fs.readFileSync(file_path);
+      var fsHash = crypto.createHash('md5');
+      fsHash.update(buffer);
+      var file_hash = fsHash.digest('hex');
 
-            var buffer = fs.readFileSync(downloadDir + "/" + file_name);
-            var fsHash = crypto.createHash('md5');
-            fsHash.update(buffer);
-            var file_hash = fsHash.digest('hex');
+      console.debug(tag, "block_chain_hash:" + block_chain_hash);
+      console.debug(tag, "file_hash:" + file_hash);
 
-            console.debug(tag, "block_chain_hash:" + block_chain_hash);
-            console.debug(tag, "file_hash:" + file_hash);
-
-            if (block_chain_hash == file_hash) {
-              resolve(JSON.parse("{}"));
-            } else {
-              reject({
-                error: "File is not correct"
-              });
-            }
-          }).catch(error => {
-            reject({
-              error: "Can't get file hash value"
-            });
-          })
-        } else {
-          reject({
-            error: "Can't download file: " + file_name
-          });
-          fs.unlinkSync(downloadDir + "/" + file_name);
-        }
-      });
-
-      var stream = fs.createWriteStream(downloadDir + "/" + file_name);
-      req.pipe(stream);
-    } catch (err) {
+      if (block_chain_hash == file_hash) {
+        resolve(JSON.parse("{}"));
+      } else {
+        reject({
+          error: "File is not correct"
+        });
+      }
+    }).catch(err => {
       reject({
-        error: "Can't download file: " + file_name
+        error: "Can't get file hash value"
       });
-    }
+    })
   })
 }
 
@@ -272,7 +249,6 @@ sdk.download_file = async (file_name, downloadDir) => {
     },
     method: 'GET'
   };
-
 
   return new Promise(function(resolve, reject) {
     try {
