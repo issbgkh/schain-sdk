@@ -188,11 +188,11 @@ await schain.download_file(file_name, path).then(data => {
 // options 為取得檔案清單規則的條件設定
 var options = {
   maxKeys: 1000,
-  prefix: "prifix_key",
+  prefix: "prefix",
   startAfter: "file_key",
   continuationToken: "token",
   delimiter: "group_key",
-  encodingType: 'url'
+  encodingType: "url"
 };
 
 // 設定檔案清單規則
