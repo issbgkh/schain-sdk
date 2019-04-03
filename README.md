@@ -208,8 +208,8 @@ await schain.get_file_list().then(data => {
 }).catch(error => {
     console.log(error);
 });
-  res.send(data);
 ```
+
 關於 options 的詳細設定可參考 [AWS S3說明文件](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjectsV2-property)
 
 ## License
