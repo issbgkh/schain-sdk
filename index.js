@@ -5,6 +5,8 @@ const fs = require('fs');
 const fsPath = require('fs-path');
 const path = require('path');
 
+var debug = false;
+
 const FW_URL = "http://ec2-13-231-26-144.ap-northeast-1.compute.amazonaws.com:9000/v1";
 
 const tag = '[scass_sdk.js]';
@@ -24,6 +26,15 @@ var CHAIN_CODE_EXEC = {
 var API_KEY = "";
 var APP_ID = "";
 
+sdk.set_debug = function(isDebug) {
+  debug = isDebug;
+  if (debug) {
+    console.debug(tag, "Debug mode is open")
+  } else {
+    console.debug(tag, "Debug mode is close")
+  }
+}
+
 sdk.init = function(apikey, appid) {
   if (!apikey) {
     return {
@@ -37,7 +48,8 @@ sdk.init = function(apikey, appid) {
     };
   }
 
-  console.debug(tag, "init API_KEY:" + apikey + " APP_ID:" + appid);
+  if (debug) console.debug(tag, "init API_KEY:" + apikey + " APP_ID:" + appid);
+
   API_KEY = apikey;
   APP_ID = appid;
 }
@@ -49,8 +61,8 @@ sdk.register = async (name) => {
     };
   }
 
-  console.debug(tag, 'register_url:', FW_URL + "/user");
-  console.debug(tag, 'register_name:', name);
+  if (debug) console.debug(tag, 'register_url:', FW_URL + "/user");
+  if (debug) console.debug(tag, 'register_name:', name);
 
   var options = {
     url: FW_URL + "/user",
@@ -70,10 +82,10 @@ sdk.register = async (name) => {
         fsPath.writeFile(KEYSTORE + "/" + data.result.user, data.result.private_key, function(err) {
           if (!err) {
             resolve(data);
-            console.log("Success to create user:" + data.result.user);
+            if (debug) console.log("Success to create user:" + data.result.user);
           } else {
             resolve(data);
-            console.log(err);
+            if (debug) console.log(err);
           }
         });
         /*
@@ -103,7 +115,7 @@ sdk.upload_file = async (file_path) => {
   }
 
   var url = FW_URL + "/files"
-  console.debug(tag, "url:" + url);
+  if (debug) console.debug(tag, "url:" + url);
 
   var options = {
     url: url,
@@ -121,7 +133,6 @@ sdk.upload_file = async (file_path) => {
 
   return new Promise(function(resolve, reject) {
     request(options, function(error, response, body) {
-      console.debug(tag, body);
       if (!error && response.statusCode == 200) {
         resolve(JSON.parse(body));
       } else {
@@ -139,7 +150,7 @@ sdk.delete_file = async (file_name) => {
   }
 
   var url = FW_URL + "/files/" + APP_ID + "/" + file_name
-  console.debug(tag, "url:" + url)
+  if (debug) console.debug(tag, "url:" + url)
 
   var options = {
     url: url,
@@ -151,7 +162,6 @@ sdk.delete_file = async (file_name) => {
 
   return new Promise(function(resolve, reject) {
     request(options, function(error, response, body) {
-      console.debug(tag, body);
       if (!error && response.statusCode == 200) {
         resolve(JSON.parse(body));
       } else {
@@ -169,7 +179,7 @@ sdk.get_file_hash = async (file_name) => {
   }
 
   var url = FW_URL + "/files/" + APP_ID + "/hash/" + file_name
-  console.debug(tag, "url:" + url)
+  if (debug) console.debug(tag, "url:" + url)
 
   var options = {
     url: url,
@@ -214,8 +224,8 @@ sdk.verify_file = async (file_path) => {
       fsHash.update(buffer);
       var file_hash = fsHash.digest('hex');
 
-      console.debug(tag, "block_chain_hash:" + block_chain_hash);
-      console.debug(tag, "file_hash:" + file_hash);
+      if (debug) console.debug(tag, "block_chain_hash:" + block_chain_hash);
+      if (debug) console.debug(tag, "file_hash:" + file_hash);
 
       if (block_chain_hash == file_hash) {
         resolve(JSON.parse("{}"));
@@ -240,7 +250,7 @@ sdk.download_file = async (file_name, downloadDir) => {
   }
 
   var url = FW_URL + "/files/" + APP_ID + "/download/" + file_name
-  console.debug(tag, "url:" + url)
+  if (debug) console.debug(tag, "url:" + url)
 
   var options = {
     url: url,
@@ -305,26 +315,26 @@ sdk.get_file_list = async (s3_option = {}) => {
 
 //==========CURD Template SDK==========
 sdk.get = async (key) => {
-  console.log("exec get fcn in curd template");
+  if (debug) console.debug(tag, "exec get fcn in curd template");
   var args = "[\"" + key + "\"]";
   return sdk.queryChainCode("", "get", args)
 }
 
 sdk.set = async (key, value) => {
-  console.log("exec set fcn in curd template");
+  if (debug) console.debug(tag, "exec set fcn in curd template");
   var args = "[\"" + key + "\",\"" + value + "\"]";
   return sdk.invokeChainCode("", "set", args)
 }
 
 sdk.delete = async (key) => {
-  console.log("exec del fcn in curd template");
+  if (debug) console.debug(tag, "exec del fcn in curd template");
   var args = "[\"" + key + "\"]";
   return sdk.invokeChainCode("", "delete", args)
 }
 
 //====================================
 sdk.invokeChainCode = async (user_name, fcn, args) => {
-  console.log("exec invoke chain code");
+  if (debug) console.debug(tag, "exec invoke chain code");
   var args_var = args;
   if (typeof args === 'array' || Array.isArray(args)) {
     args_var = JSON.stringify(args);
@@ -333,7 +343,7 @@ sdk.invokeChainCode = async (user_name, fcn, args) => {
 }
 
 sdk.queryChainCode = async (user_name, fcn, args) => {
-  console.log("exec query chain code");
+  if (debug) console.debug(tag, "exec query chain code");
   var args_var = args;
   if (typeof args === 'array' || Array.isArray(args)) {
     args_var = JSON.stringify(args);
@@ -360,7 +370,6 @@ execChainCode = async (exec, user_name, fcn, args) => {
   var signature = "";
   if (user_name) {
     if (!fs.existsSync(KEYSTORE + "/" + user_name)) {
-      console.log(user_name)
       return {
         error: "User is not existed"
       };
@@ -382,21 +391,22 @@ execChainCode = async (exec, user_name, fcn, args) => {
     try {
       signature = signer.sign(user_private_key).toString("hex");
     } catch (err) {
-      console.error(err);
+      if (debug) console.debug(tag, err);
       return {
         error: "Private key is not correct"
       };
     }
   }
-
-  console.debug(tag, "apikey:", API_KEY);
-  console.debug(tag, 'chain_code_url:', query_url);
-  console.debug(tag, 'appid:', APP_ID);
-  console.debug(tag, 'user_name:', user_name);
-  console.debug(tag, 'user_private_key:', user_private_key);
-  console.debug(tag, 'signature:', signature);
-  console.debug(tag, 'fcn:', fcn);
-  console.debug(tag, 'args:', args);
+  if (debug) {
+    console.debug(tag, "apikey:", API_KEY);
+    console.debug(tag, 'chain_code_url:', query_url);
+    console.debug(tag, 'appid:', APP_ID);
+    console.debug(tag, 'user_name:', user_name);
+    console.debug(tag, 'user_private_key:', user_private_key);
+    console.debug(tag, 'signature:', signature);
+    console.debug(tag, 'fcn:', fcn);
+    console.debug(tag, 'args:', args);
+  }
 
   var options = {
     url: query_url,

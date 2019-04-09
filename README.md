@@ -27,6 +27,14 @@ const APP_ID = 'app-38b30623-c207-4025-8c80-69df51f822c2';
 schain.init(API_KEY, APP_ID)
 ```
 
+## 開啟/關閉Debug Mode
+```javascript
+//開啟Debug mode
+schain.set_debug(true)
+
+//關閉Debug mode
+schain.set_debug(false)
+```
 
 # 資料儲存樣板
 
