@@ -28,6 +28,9 @@ schain.init(API_KEY, APP_ID)
 ```
 
 ## 開啟/關閉Debug Mode
+
+開啟Debug mode,　將提供SDK運行的Log
+
 ```javascript
 //開啟Debug mode
 schain.set_debug(true)
