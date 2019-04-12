@@ -322,7 +322,13 @@ sdk.get = async (key) => {
 
 sdk.set = async (key, value) => {
   if (debug) console.debug(tag, "exec set fcn in curd template");
-  var args = "[\"" + key + "\",\"" + value + "\"]";
+  var args = "";
+  if (typeof value === 'string' || value instanceof String) {
+    args = "[\"" + key + "\",\"" + value + "\"]";
+  } else {
+    value = JSON.stringify(value).replace(/"/g, '\\"')
+    args = "[\"" + key + "\",\"" + value + "\"]";
+  }
   return sdk.invokeChainCode("", "set", args)
 }
 

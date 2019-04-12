@@ -1,6 +1,6 @@
 {
   "name": "schain_sdk",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "sdk for schain",
   "main": "index.js",
   "scripts": {
