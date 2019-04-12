@@ -3,7 +3,6 @@ const crypto = require('crypto');
 const http = require('http');
 const fs = require('fs');
 const fsPath = require('fs-path');
-const path = require('path');
 
 var debug = false;
 
