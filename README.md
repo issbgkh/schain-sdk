@@ -146,9 +146,10 @@ SChain 為每個開發者帳號提供了 100MB 的檔案儲存空間。
 ### 上傳檔案
 ```javascript
 // 上傳的檔案路徑
+let file_key = "file.jpg";
 let file_path = "./file.jpg";
 
-await schain.upload_file(file_path).then(result => {
+await schain.upload_file(file_path, file_key).then(result => {
     console.log(result);
 }).catch(error => {
     console.log(error);
@@ -158,9 +159,9 @@ await schain.upload_file(file_path).then(result => {
 ### 刪除檔案
 ```javascript
 // 刪除的檔案名稱
-let file_name = "file.jpg";
+let file_key = "file.jpg";
 
-await schain.delete_file(file_name).then(result => {
+await schain.delete_file(file_key).then(result => {
     console.log(result);
 }).catch(error => {
     console.log(error);
@@ -170,9 +171,9 @@ await schain.delete_file(file_name).then(result => {
 ### 取得檔案 Hash 值
 ```javascript
 // 檔案名稱
-let file_name = "file.jpg";
+let file_key = "file.jpg";
 
-await schain.get_file_hash(file_name).then(result => {
+await schain.get_file_hash(file_key).then(result => {
     console.log(result);
 }).catch(error => {
     console.log(error);
@@ -182,12 +183,12 @@ await schain.get_file_hash(file_name).then(result => {
 ### 下載檔案
 ```javascript
 // 檔案名稱
-let file_name = "file.jpg";
+let file_key = "file.jpg";
 
 // 存放下載檔案的目錄, 本範例會在根目錄下建立 download 資料夾存放檔案
 let path = "./download";
 
-await schain.download_file(file_name, path).then(data => {
+await schain.download_file(file_key, path).then(data => {
     console.log(data);
 }).catch(error => {
     console.log(error);
@@ -197,9 +198,10 @@ await schain.download_file(file_name, path).then(data => {
 ### 驗證檔案完整性
 ```javascript
 // 要驗證檔案的路徑
+var file_key = "test.jpg";
 var file_path = "./test/test.jpg";
 
-await schain.verify_file(file_path).then(data => {
+await schain.verify_file(file_path, file_key).then(data => {
     console.log(data);
 }).catch(error => {
     console.log(error);

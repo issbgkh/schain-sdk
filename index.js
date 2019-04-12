@@ -101,7 +101,7 @@ sdk.register = async (name) => {
 };
 
 //==========File Manager for S3=========
-sdk.upload_file = async (file_path) => {
+sdk.upload_file = async (file_path, file_key) => {
   if (!checkInitComplete()) {
     return {
       error: "Api key or App id is not defined"
@@ -111,6 +111,12 @@ sdk.upload_file = async (file_path) => {
   if (!fs.existsSync(file_path)) {
     return {
       error: "File is not exist"
+    };
+  }
+
+  if (!file_key) {
+    return {
+      error: "File key is empty"
     };
   }
 
@@ -125,7 +131,7 @@ sdk.upload_file = async (file_path) => {
     },
     formData: {
       id: APP_ID,
-      file_key: path.basename(file_path),
+      file_key: file_key,
       file: fs.createReadStream(file_path)
     },
     method: 'POST'
@@ -142,14 +148,20 @@ sdk.upload_file = async (file_path) => {
   })
 }
 
-sdk.delete_file = async (file_name) => {
+sdk.delete_file = async (file_key) => {
   if (!checkInitComplete()) {
     return {
       error: "Api key or App id is not defined"
     };
   }
 
-  var url = FW_URL + "/files/" + APP_ID + "/" + file_name
+  if (!file_key) {
+    return {
+      error: "File key is empty"
+    };
+  }
+
+  var url = FW_URL + "/files/" + APP_ID + "/" + file_key
   if (debug) console.debug(tag, "url:" + url)
 
   var options = {
@@ -171,14 +183,20 @@ sdk.delete_file = async (file_name) => {
   })
 }
 
-sdk.get_file_hash = async (file_name) => {
+sdk.get_file_hash = async (file_key) => {
   if (!checkInitComplete()) {
     return {
       error: "Api key or App id is not defined"
     };
   }
 
-  var url = FW_URL + "/files/" + APP_ID + "/hash/" + file_name
+  if (!file_key) {
+    return {
+      error: "File key is empty"
+    };
+  }
+
+  var url = FW_URL + "/files/" + APP_ID + "/hash/" + file_key
   if (debug) console.debug(tag, "url:" + url)
 
   var options = {
@@ -200,7 +218,7 @@ sdk.get_file_hash = async (file_name) => {
   })
 }
 
-sdk.verify_file = async (file_path) => {
+sdk.verify_file = async (file_path, file_key) => {
   if (!checkInitComplete()) {
     return {
       error: "Api key or App id is not defined"
@@ -213,10 +231,14 @@ sdk.verify_file = async (file_path) => {
     };
   }
 
-  var file_name = path.basename(file_path);
+  if (!file_key) {
+    return {
+      error: "File key is empty"
+    };
+  }
 
   return new Promise(function(resolve, reject) {
-    sdk.get_file_hash(file_name).then(data => {
+    sdk.get_file_hash(file_key).then(data => {
       var block_chain_hash = data.hash;
 
       var buffer = fs.readFileSync(file_path);
@@ -242,14 +264,20 @@ sdk.verify_file = async (file_path) => {
   })
 }
 
-sdk.download_file = async (file_name, downloadDir) => {
+sdk.download_file = async (file_key, downloadDir) => {
   if (!checkInitComplete()) {
     return {
       error: "Api key or App id is not defined"
     };
   }
 
-  var url = FW_URL + "/files/" + APP_ID + "/download/" + file_name
+  if (!file_key) {
+    return {
+      error: "File key is empty"
+    };
+  }
+
+  var url = FW_URL + "/files/" + APP_ID + "/download/" + file_key
   if (debug) console.debug(tag, "url:" + url)
 
   var options = {
@@ -269,17 +297,17 @@ sdk.download_file = async (file_name, downloadDir) => {
           resolve(JSON.parse("{}"));
         } else {
           reject({
-            error: "Can't download file: " + file_name
+            error: "Can't download file: " + file_key
           });
-          fs.unlinkSync(downloadDir + "/" + file_name);
+          fs.unlinkSync(downloadDir + "/" + file_key);
         }
       });
 
-      var stream = fs.createWriteStream(downloadDir + "/" + file_name);
+      var stream = fs.createWriteStream(downloadDir + "/" + file_key);
       req.pipe(stream);
     } catch (err) {
       reject({
-        error: "Can't download file: " + file_name
+        error: "Can't download file: " + file_key
       });
     }
   })
